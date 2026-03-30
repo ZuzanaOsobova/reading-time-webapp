@@ -7,12 +7,38 @@ function calculateTime(){
     const what = document.getElementById("minute_page").value;
     const num = document.getElementById("number").value;
 
-    console.log(`Type: ${type}`)
-    console.log(`Text: ${text}`)
-    console.log(`Minutes of pages? ${what}`)
-    console.log(`Number: ${num}`)
+    console.log(localStorage)
 
-    console.log(JSON.parse(localStorage))
+    const length = localStorage.length
+
+    let totalMinutes = 0;
+    let totalPages = 0;
+
+    for (let i = 0; i < length; i++ ) {
+
+        const line = JSON.parse(localStorage[i])
+
+        if (line.type === type && line.text === text) {
+            totalMinutes += +line.minutes;
+            totalPages += +line.pages
+        }
+    }
+
+    const message = document.getElementById("answer")
+
+    const magicNum = totalMinutes/totalPages;
+
+    if (what === "minutes") {
+        const result = Math.floor(num / magicNum)
+        message.textContent = `You will read ${result} pages in ${num} minutes.`
+    }
+
+    if (what === "pages") {
+        const result = Math.ceil(num * magicNum)
+        message.textContent = `You will read ${num} pages in ${result} minutes.`
+    }
+
+
 }
 
 document.getElementById("saveStats").addEventListener("submit", (e) => {
@@ -30,8 +56,6 @@ document.getElementById("saveStats").addEventListener("submit", (e) => {
     const index = localStorage.length
 
     localStorage.setItem(index, JSON.stringify(object))
-
-    console.log(localStorage)
 
     document.getElementById("saveStats").reset()
 })
