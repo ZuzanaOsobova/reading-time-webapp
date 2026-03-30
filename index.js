@@ -35,7 +35,14 @@ function calculateTime(){
 
     if (what === "pages") {
         const result = Math.ceil(num * magicNum)
-        message.textContent = `You will read ${num} pages in ${result} minutes.`
+        if (result >= 60) {
+            const hours = Math.floor(result/60);
+            const minutes = Math.ceil(result%60)
+            message.textContent = `You will read ${num} pages in ${hours} hours and ${minutes} minutes.`
+        } else {
+            message.textContent = `You will read ${num} pages in ${result} minutes.`
+        }
+       
     }
 
 
